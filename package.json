@@ -1,13 +1,7 @@
 {
   "name": "crazy-proxy",
   "version": "1.0.0",
-  "engines": {
-    "node": "20.x"
-  },
-  "dependencies": {
-    "http-proxy": "^1.18.1"
-  },
-  "scripts": {
-    "start": "node server.js"
-  }
+  "engines": { "node": "20.x" },
+  "dependencies": { "http-proxy": "^1.18.1" },
+  "scripts": { "start": "node server.js" }
 }
