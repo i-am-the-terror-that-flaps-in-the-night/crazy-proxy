@@ -4,32 +4,25 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createProxyServer({
   changeOrigin: true,
   secure: true,
-  ws: true,                    // Important for CrazyGames
+  ws: true,
   timeout: 60000,
   proxyTimeout: 60000
 });
 
 http.createServer((req, res) => {
   if (req.url === '/' || req.url === '') {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(`
-      <h1>CrazyGames Proxy</h1>
-      <p>Use: <code>https://your-app.onrender.com/https://www.crazygames.com</code></p>
-      <p>Example: <a href="/https://www.crazygames.com">Open CrazyGames</a></p>
-    `);
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(`<h1>CrazyGames Proxy</h1><p>Use: https://your-app.onrender.com/https://www.crazygames.com</p>`);
     return;
   }
 
-  let target = req.url.slice(1); // remove leading /
-  if (!target.startsWith('http')) {
-    target = 'https://' + target;
-  }
+  let target = req.url.slice(1);
+  if (!target.startsWith('http')) target = 'https://' + target;
 
   proxy.web(req, res, { target: target }, (err) => {
-    console.error(err);
-    res.writeHead(500);
-    res.end('Proxy error');
+    res.writeHead(502, {'Content-Type': 'text/plain'});
+    res.end('Proxy Error');
   });
-}).listen(process.env.PORT || 3000);
+}).listen(10000);
 
-console.log('Proxy running');
+console.log('Proxy running on port 10000');
